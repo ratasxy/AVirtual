@@ -1,0 +1,22 @@
+{% extends 'AVirtBundle::layout.html.twig' %}
+
+{% block center -%}
+    <h1>Lista de cursos
+<a class="btn btn-success btn-mini" href="{{ path('course_new') }}">
+    Nuevo
+</a>
+    </h1>
+    <div id="content">
+        {% for entity in entities %}
+            <div>
+                <h3><a href="{{ path('course_show', { 'id': entity.id }) }}">{{ entity.name }}</a>
+                    <a class="btn btn-info btn-mini" href="{{ path('course_edit', { 'id': entity.id }) }}">Editar</a>
+                </h3>
+
+                {{ entity.description }}
+                {% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}
+            </div>
+        {% endfor %}
+        {{ simple_paginator_render('course') }}
+    </div>
+    {% endblock %}

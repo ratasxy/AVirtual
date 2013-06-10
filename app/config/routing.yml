@@ -1,0 +1,5 @@
+a_virt:
+    resource: "@AVirtBundle/Controller/"
+    type:     annotation
+    prefix:   /
+

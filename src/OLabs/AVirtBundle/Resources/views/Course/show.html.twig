@@ -1,0 +1,76 @@
+{% extends 'AVirtBundle::layout.html.twig' %}
+
+{% block center -%}
+    <h1>{{ entity.name }}</h1>
+
+    <div id="video" class="span8">
+    </div>
+
+    <div id="video-list" class="span3 orange-box">
+    </div>
+
+    <div class="span8 red-box">
+        Creado: {{ entity.createdAt|date('Y-m-d H:i:s') }}</br>
+        Actualizado: {{ entity.updatedAt|date('Y-m-d H:i:s') }}</br>
+
+        {{ entity.description }}
+    </div>
+
+
+    <div class="span8">
+        <ul class="record_actions">
+            <li>
+                <a href="{{ path('course') }}">
+                    Back to the list
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('course_edit', { 'id': entity.id }) }}">
+                    Edit
+                </a>
+            </li>
+            <li>
+                <form action="{{ path('course_delete', { 'id': entity.id }) }}" method="post">
+                    <input type="hidden" name="_method" value="DELETE" />
+                    {{ form_widget(delete_form) }}
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+{% endblock %}
+
+{% block morejavascripts %}
+    <script type="text/javascript" >
+        $.ajax({
+            url: "http://127.0.0.1:8000/course/{{ entity.id }}/video/"
+        }).done(function( data ) {
+            var videos = data;
+            $.each(videos, function(i, item){
+                if(item){
+                    $("#video-list").append('<div class="li-video" data-type="' + item.type + '" data-url="'+ item.url + '">'+ item.name +'</div>');
+                    last = item;
+                }
+                $("#video").html( "[" + last.type + "=" + last.url + "]" );
+                parseVideo();
+            });
+        });
+
+        $("#video-list").on("click", ".li-video", function(){
+            var type = $(this).attr("data-type");
+            var url = $(this).attr("data-url");
+            $("#video").html( "[" + type + "=" + url + "]" );
+            parseVideo();
+        });
+
+        function parseVideo()
+        {
+            $.mb_audioEmbedder.playerPath="media/player.swf"; //the path to audio player
+            $.mb_videoEmbedder.defaults.width=688; //the with of players --> the height is automatically calculated
+            $('#video').mb_embedMovies();
+        }
+
+
+    </script>
+{% endblock morejavascripts %}
