@@ -2,7 +2,7 @@
 
 {% block center -%}
     <h1>Lista de cursos
-<a class="btn btn-success btn-mini" href="{{ path('course_new') }}">
+<a class="btn btn-success btn-mini" data-toggle="modal" href="{{ path('course_new') }}">
     Nuevo
 </a>
     </h1>
@@ -10,7 +10,7 @@
         {% for entity in entities %}
             <div>
                 <h3><a href="{{ path('course_show', { 'id': entity.id }) }}">{{ entity.name }}</a>
-                    <a class="btn btn-info btn-mini" href="{{ path('course_edit', { 'id': entity.id }) }}">Editar</a>
+                    <a data-toggle="modal" class="btn btn-info btn-mini" href="{{ path('course_edit', { 'id': entity.id }) }}">Editar</a>
                 </h3>
 
                 {{ entity.description }}
