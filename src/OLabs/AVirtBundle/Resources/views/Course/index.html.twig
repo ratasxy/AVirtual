@@ -17,6 +17,26 @@
                 {% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}
             </div>
         {% endfor %}
-        {{ simple_paginator_render('course') }}
+        <div class="pagination">
+            <ul>
+                {% if paginator.currentPage > 1 %}
+                    <li><a href="{{ path('course', { 'page': paginator.previousPage}) }}"> < </a></li>
+                {% else %}
+                    <li class="active"><a href="#"> <span>1</span>< </a></li>
+                {% endif %}
+                {% for page in paginator.minPageInRange..paginator.maxPageInRange %}
+                    {% if page == paginator.currentPage %}
+                        <li class="active"><a href="#">{{ page }}</a></li>
+                    {% else %}
+                        <li><a href="{{ path('course', { 'page': page }) }}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if paginator.currentPage < paginator.lastPage %}
+                    <li><a href="{{ path('course', {'page': paginator.nextPage })}}"> > </a></li>
+                {% else %}
+                    <li class="active"><a href="#"> > </a></li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
     {% endblock %}

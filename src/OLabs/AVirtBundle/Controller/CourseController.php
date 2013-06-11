@@ -35,6 +35,7 @@ class CourseController extends Controller
 
         return array(
             'entities' => $entities,
+            'paginator' => $paginator,
         );
     }
 
