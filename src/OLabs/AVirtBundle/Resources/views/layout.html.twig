@@ -24,9 +24,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-        // Support for AJAX loaded modal window.
-        // Focuses on first input textbox after it loads the window.
-            $('[data-toggle="modal"]').click(function(e) {
+            $(".container-fluid").on("click", '[data-toggle="modal"]', function(e){
                 e.preventDefault();
                 var url = $(this).attr('href');
                 if (url.indexOf('#') == 0) {
@@ -41,6 +39,8 @@
                 }
             });
 
+
+
         });
     </script>
     {% block morejavascripts %}
@@ -50,8 +50,8 @@
 {% block body %}
     <div class="container-fluid">
         <div class="row-fluid">
-            <div class="span9">
-                <h1>UCSP</h1>
+            <div class="span10">
+                <a href="{{ path('course') }}"><h1>UCSP</h1></a>
                 {% block center %}
                 {% endblock center %}
             </div>

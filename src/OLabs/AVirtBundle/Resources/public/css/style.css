@@ -19,3 +19,16 @@ h3 a{
     background-color: #CD4900;
     color: #FFFFFF;
 }
+
+.li-video .btn-mini{
+    float: right;
+}
+
+.li-video{
+    text-align: center;
+    display: block;
+}
+
+.vitem:hover{
+    background-color: #032f56;
+}

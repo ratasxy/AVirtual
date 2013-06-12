@@ -162,7 +162,7 @@ class CourseController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('course_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('course'));
         }
 
         return array(

@@ -1,10 +1,14 @@
 {% extends 'AVirtBundle::layout.html.twig' %}
 
 {% block center -%}
-    <h1>{{ entity.name }}</h1>
+    <h1>{{ entity.name }}
+        <a class="btn btn-success btn-mini" data-toggle="modal" href="{{ path('video_new', { 'course_id': entity.id } ) }}">
+            Agregar un video
+        </a>
+    </h1>
 
     <div id="video" class="span8">
-    </div>
+    </div>modal
 
     <div id="video-list" class="span3 orange-box">
     </div>
@@ -18,25 +22,17 @@
 
 
     <div class="span8">
-        <ul class="record_actions">
-            <li>
-                <a href="{{ path('course') }}">
-                    Back to the list
-                </a>
-            </li>
-            <li>
-                <a href="{{ path('course_edit', { 'id': entity.id }) }}">
-                    Edit
-                </a>
-            </li>
-            <li>
-                <form action="{{ path('course_delete', { 'id': entity.id }) }}" method="post">
-                    <input type="hidden" name="_method" value="DELETE" />
-                    {{ form_widget(delete_form) }}
-                    <button type="submit">Delete</button>
-                </form>
-            </li>
-        </ul>
+
+    </div>
+
+    <div id="notVideo" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Vaya aun no se a subido ningun video.</h3>
+        </div>
+        <div class="modal-body">
+            <p>Lamentablemente no se a subido ningun video.</p>
+        </div>
     </div>
 
 {% endblock %}
@@ -47,14 +43,24 @@
             url: "http://127.0.0.1:8000/course/{{ entity.id }}/video/"
         }).done(function( data ) {
             var videos = data;
+            done = 0;
             $.each(videos, function(i, item){
+                done = 1;
                 if(item){
-                    $("#video-list").append('<div class="li-video" data-type="' + item.type + '" data-url="'+ item.url + '">'+ item.name +'</div>');
+                    $("#video-list").append('<div class="li-video" data-type="' + item.type + '" data-url="'+ item.url + '">' +
+                            '<span class="span9 vitem">'+ item.name +'</span>' +
+                            '<span class="span2"><a class="btn btn-info btn-mini" data-toggle="modal" href="/course/{{ entity.id }}/video/' + item.id + '/edit">' +
+                            'Editar' +
+                            '</a></span>' +
+                            '</div>');
                     last = item;
                 }
                 $("#video").html( "[" + last.type + "=" + last.url + "]" );
                 parseVideo();
             });
+            if(done != 1){
+                $('#notVideo').modal();
+            }
         });
 
         $("#video-list").on("click", ".li-video", function(){
@@ -63,6 +69,8 @@
             $("#video").html( "[" + type + "=" + url + "]" );
             parseVideo();
         });
+
+
 
         function parseVideo()
         {

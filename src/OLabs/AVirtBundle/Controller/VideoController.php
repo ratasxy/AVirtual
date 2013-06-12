@@ -252,6 +252,7 @@ class VideoController extends Controller
 
             $em->remove($entity);
             $em->flush();
+            return $this->redirect($this->generateUrl('course_show', array('id' => $entity->getCourse()->getId())));
         }
 
         return $this->redirect($this->generateUrl('course'));
