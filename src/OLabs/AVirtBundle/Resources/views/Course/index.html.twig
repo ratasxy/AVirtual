@@ -1,42 +1,53 @@
 {% extends 'AVirtBundle::layout.html.twig' %}
 
 {% block center -%}
-    <h1>Lista de cursos
-<a class="btn btn-success btn-mini" data-toggle="modal" href="{{ path('course_new') }}">
-    Nuevo
-</a>
-    </h1>
-    <div id="content">
-        {% for entity in entities %}
-            <div>
-                <h3><a href="{{ path('course_show', { 'id': entity.id }) }}">{{ entity.name }}</a>
-                    <a data-toggle="modal" class="btn btn-info btn-mini" href="{{ path('course_edit', { 'id': entity.id }) }}">Editar</a>
-                </h3>
+    <div class="container row-fluid">
+        <div class="container span8 offset1">
+            <h1>Lista de cursos</h1>
+            <a class="btn btn-success btn-mini" data-toggle="modal" href="{{ path('course_new') }}">
+                Nuevo
+            </a>
 
-                {{ entity.description }}
-                {% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}
-            </div>
-        {% endfor %}
-        <div class="pagination">
-            <ul>
-                {% if paginator.currentPage > 1 %}
-                    <li><a href="{{ path('course', { 'page': paginator.previousPage}) }}"> < </a></li>
-                {% else %}
-                    <li class="active"><a href="#"> < </a></li>
-                {% endif %}
-                {% for page in paginator.minPageInRange..paginator.maxPageInRange %}
-                    {% if page == paginator.currentPage %}
-                        <li class="active"><a href="#">{{ page }}</a></li>
-                    {% else %}
-                        <li><a href="{{ path('course', { 'page': page }) }}">{{ page }}</a></li>
-                    {% endif %}
+
+            <div id="content">
+                {% for entity in entities %}
+                    <div>
+                        <h3><a href="{{ path('course_show', { 'id': entity.id }) }}">{{ entity.name }}</a>
+                            <a data-toggle="modal" class="btn btn-info btn-mini" href="{{ path('course_edit', { 'id': entity.id }) }}">Editar</a>
+                        </h3>
+
+                        {{ entity.description }}
+                        {% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}
+                    </div>
                 {% endfor %}
-                {% if paginator.currentPage < paginator.lastPage %}
-                    <li><a href="{{ path('course', {'page': paginator.nextPage })}}"> > </a></li>
-                {% else %}
-                    <li class="active"><a href="#"> > </a></li>
-                {% endif %}
+                <div class="pagination">
+                    <ul>
+                        {% if paginator.currentPage > 1 %}
+                            <li><a href="{{ path('course', { 'page': paginator.previousPage}) }}"> < </a></li>
+                        {% else %}
+                            <li class="active"><a href="#"> < </a></li>
+                        {% endif %}
+                        {% for page in paginator.minPageInRange..paginator.maxPageInRange %}
+                            {% if page == paginator.currentPage %}
+                                <li class="active"><a href="#">{{ page }}</a></li>
+                            {% else %}
+                                <li><a href="{{ path('course', { 'page': page }) }}">{{ page }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if paginator.currentPage < paginator.lastPage %}
+                            <li><a href="{{ path('course', {'page': paginator.nextPage })}}"> > </a></li>
+                        {% else %}
+                            <li class="active"><a href="#"> > </a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container span2 offset1">
+            <ul class="nav nav-list">
+                <li class=nav-header""><h1>Videos mas vistos</h1></li>
             </ul>
         </div>
     </div>
+
     {% endblock %}
